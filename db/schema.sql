@@ -1,0 +1,3 @@
+DROP DATABASE IF EXISTS crexendo_e911_db;
+
+CREATE DATABASE crexendo_e911_db;
