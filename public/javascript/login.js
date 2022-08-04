@@ -1,8 +1,13 @@
 // const { response } = require("express");
+var loggedIn;
+
+
+async function redirectHandler(event) {
+    document.location.replace('/main');
+};
 
 async function loginFormHandler(event) {
     event.preventDefault();
-
 
     const email = document.querySelector('#email_address').value.trim();
     const password = document.querySelector('#password').value.trim();
@@ -15,13 +20,19 @@ async function loginFormHandler(event) {
             method: 'GET'
         }).then(response => response.json())
         .then(data => {
+            
             let token = data.access_token;
+            let oldAccess = localStorage.getItem('NS_access');
+            if (oldAccess) {
+                localStorage.removeItem('NS_access');
+            }
+
+
             localStorage.setItem('NS_access', token);
-        });
-        
+            document.cookie = `access_token=${token};path=/;`
+        }).then(redirectHandler);
+    } else { alert('Please enter valid Username and Password!'); }
 
-
-    };
 };
 
 
